@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="description" content="MyWeather - Detailed weather forecast" />
+
+    <title>MyWeather</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- ================= HEADER ================= -->
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">M</span>
+
+        <div>
+          <h1>MyWeather</h1>
+          <p>Weather, clearly presented.</p>
+        </div>
+      </div>
+
+      <div class="search">
+        <input
+          id="cityInput"
+          type="text"
+          placeholder="Search city..."
+          autocomplete="off"
+        />
+
+        <button id="search">Search</button>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- ERROR -->
+
+      <div class="error" id="errorBox">
+        <p id="error"></p>
+      </div>
+
+      <!-- LOADING -->
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Loading weather...</p>
+      </div>
+
+      <!-- ================= LOCATION ================= -->
+
+      <section class="location-row">
+        <div>
+          <p class="eyebrow">CURRENT WEATHER</p>
+
+          <h2 id="city">Search for a city</h2>
+
+          <p class="updated" id="updated">—</p>
+        </div>
+      </section>
+
+      <!-- ================= CURRENT WEATHER ================= -->
+
+      <section class="current-grid">
+        <!-- Main weather -->
+
+        <article class="current-card">
+          <div class="current-main">
+            <div>
+              <p class="condition" id="condition">—</p>
+
+              <div class="temperature">
+                <span id="temp">—</span>
+                <span class="degree">°C</span>
+              </div>
+
+              <p class="feels">
+                Feels like <strong id="feelsLike">—</strong>°C
+              </p>
+            </div>
+
+            <div class="weather-icon" id="weatherIcon">☀</div>
+          </div>
+
+          <p class="description" id="description">—</p>
+        </article>
+
+        <!-- Weather metrics -->
+
+        <article class="metrics-card">
+          <div class="metric">
+            <span class="metric-label">Humidity</span>
+            <strong id="humidity">—</strong>
+            <small>%</small>
+          </div>
+
+          <div class="metric">
+            <span class="metric-label">Wind</span>
+            <strong id="windSpeed">—</strong>
+            <small>km/h</small>
+          </div>
+
+          <div class="metric">
+            <span class="metric-label">Pressure</span>
+            <strong id="pressure">—</strong>
+            <small>hPa</small>
+          </div>
+
+          <div class="metric">
+            <span class="metric-label">Visibility</span>
+            <strong id="visibility">—</strong>
+            <small>km</small>
+          </div>
+
+          <div class="metric">
+            <span class="metric-label">UV Index</span>
+            <strong id="uv">—</strong>
+            <small id="uvLabel"></small>
+          </div>
+
+          <div class="metric">
+            <span class="metric-label">Dew Point</span>
+            <strong id="dew">—</strong>
+            <small>°C</small>
+          </div>
+        </article>
+      </section>
+
+      <!-- ================= SUN ================= -->
+
+      <section class="sun-card">
+        <div class="sun-item">
+          <div class="sun-icon sunrise">↑</div>
+
+          <div>
+            <span>Sunrise</span>
+            <strong id="sunrise">—</strong>
+          </div>
+        </div>
+
+        <div class="sun-progress">
+          <div class="sun-line"></div>
+
+          <span id="daylightText"> Daylight </span>
+        </div>
+
+        <div class="sun-item">
+          <div class="sun-icon sunset">↓</div>
+
+          <div>
+            <span>Sunset</span>
+            <strong id="sunset">—</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= HOURLY ================= -->
+
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">TODAY</p>
+            <h2>Hourly forecast</h2>
+          </div>
+
+          <p id="hourlyDate"></p>
+        </div>
+
+        <div class="hourly-scroll" id="hourlyForecast"></div>
+      </section>
+
+      <!-- ================= CHART ================= -->
+
+      <section class="section chart-section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">FORECAST ANALYSIS</p>
+            <h2>Weather trends</h2>
+          </div>
+
+          <div class="chart-buttons">
+            <button class="chart-btn active" data-chart="temperature">
+              Temperature
+            </button>
+
+            <button class="chart-btn" data-chart="humidity">Humidity</button>
+
+            <button class="chart-btn" data-chart="precip">Rain</button>
+          </div>
+        </div>
+
+        <div class="chart-wrapper">
+          <canvas id="weatherChart"></canvas>
+        </div>
+      </section>
+
+      <!-- ================= 15 DAY FORECAST ================= -->
+
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">EXTENDED FORECAST</p>
+            <h2>15-day forecast</h2>
+          </div>
+
+          <p>Click a day to inspect its hourly data</p>
+        </div>
+
+        <div class="forecast-list" id="forecastList"></div>
+      </section>
+
+      <!-- ================= ALERTS ================= -->
+
+      <section class="alerts-section hidden" id="alertsSection">
+        <div class="alert-title">
+          <span>!</span>
+
+          <div>
+            <p class="eyebrow">WEATHER ALERT</p>
+            <h2>Important information</h2>
+          </div>
+        </div>
+
+        <div id="alerts"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Weather data provided by Visual Crossing</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
